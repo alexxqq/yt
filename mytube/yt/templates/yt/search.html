@@ -1,0 +1,25 @@
+{% extends 'yt/base.html' %}
+
+{% block content %}
+
+
+
+{% if match %}
+<div class="video-all">
+{% for i in data %}
+<div class="videos">
+    <video width="320" height="240" controls class="video">
+        <source src="{{ i.video.url }}" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+      <h3 class="title-vid">{{ i.title }}</h3>
+      <h4 class="descrip-vid">{{ i.description }}</h4>
+      <h5 class="descrip-vid">{{ i.user }}</h5>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<h1>NO matches</h1>
+{% endif %}
+
+{% endblock %}
