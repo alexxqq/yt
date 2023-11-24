@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="{% static 'yt/css/styles.css' %}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+ 
+    <title>Mytube</title>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="{% url 'home' %}">Youtube</a></div>
+
+        <form class="searchbar" method="post" action="{% url 'search' %}">
+            {% csrf_token %}
+            <input type="text" placeholder="Search" name="searched">
+            <button>Search</button>
+        </form>
+
+    {% if not request.user.is_authenticated %}
+        <div class="user-links">
+            <a href="{% url 'login' %}">Login </a>
+            <a href="{% url 'register' %}"> Register</a>
+        </div>
+        {% else %}
+        <div class="user-links">
+            <a href="{% url 'account' %}">{{user.username}}</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% endif %}
+    </header>
+    
+    <div class="container">
+
+        <div class="sidebar">
+            <!-- Sidebar content goes here -->
+            <h3>Recommended Videos</h3>
+            <ul>
+                <li><a href="#">Video Title 1</a></li>
+                <li><a href="#">Video Title 2</a></li>
+                <li><a href="#">Video Title 3</a></li>
+                <!-- Add more video links as needed -->
+            </ul>
+        </div> 
+
+    {% block content %}
+
+    <div class="video-all">
+        {% for video in videos %}
+        <div class="videos">
+            <video width="320" height="240" controls class="video">
+                <source src="{{ video.video.url }}" type="video/mp4">
+              Your browser does not support the video tag.
+              </video>
+              <a class="title-vid-go" href="{% url 'watch' id=video.id %}">{{ video.title }}</a>
+              <!-- <h4 class="descrip-vid">{{ video.description }}</h4> -->
+              <h5 class="descrip-vid">{{ video.user }}</h5>
+        </div>
+        
+          {% endfor %}
+        </div>
+        
+    {% endblock %}
+
+    </div>
+    
+    <footer>
+        <!-- Footer content goes here -->
+        <p>&copy; 2023 Tube. All rights reserved.</p>
+    </footer>
+    <script src="{% static 'yt/js/javascript.js' %}"></script>
+    </body>
+    </html>

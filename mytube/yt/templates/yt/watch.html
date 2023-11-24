@@ -1,0 +1,20 @@
+{% extends 'yt/base.html' %}
+
+
+{% block content %}
+{% if is_empty %}
+<h1>No video on this id</h1>
+{% else %}
+<div class="watch">
+<div class="big-vid-con">
+    <video width="320" height="240" controls class="big-video">
+      <source src="{{ video.video.url }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <h3 class="title-big-vid">{{ video.title }}</h3>
+    <h4 class="descrip-big-vid">{{ video.description }}</h4>
+  </div>
+  <div class="list-vid">list</div>
+</div>
+{% endif %}
+  {% endblock %}
